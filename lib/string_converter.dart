@@ -66,3 +66,8 @@ String formatJamAndMinute(int minutes) {
   List<String> parts = d.toString().split(':');
   return '${parts[0].padLeft(2, '0')} Jam ${parts[1].padLeft(2, '0')} Menit';
 }
+
+final formatter = NumberFormat("#,##0", "in_ID");
+String formatInt(int nominal) {
+  return formatter.format(nominal);
+}

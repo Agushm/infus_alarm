@@ -15,7 +15,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Monitorin Pemberian Cairan Infus Pasien',
+          'Monitoring Pemberian Cairan Infus Pasien',
           style: TextStyle(
             fontSize: 14,
             color: Colors.black,
@@ -40,7 +40,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   DataColumn(
                     label: Center(
                       child: Text(
-                        "Kamar",
+                        "RMIK",
                       ),
                     ),
                   ),
@@ -48,6 +48,13 @@ class _MonitoringPageState extends State<MonitoringPage> {
                     label: Center(
                       child: Text(
                         "Nama Pasien",
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Center(
+                      child: Text(
+                        "Kamar",
                       ),
                     ),
                   ),
@@ -115,16 +122,19 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           Text('${index + 1}'),
                         ),
                         DataCell(
-                          Text(data.bed),
+                          Text(data.rmik),
                         ),
                         DataCell(
                           Text(data.name),
                         ),
                         DataCell(
+                          Text(data.bed),
+                        ),
+                        DataCell(
                           Text(data.infus),
                         ),
                         DataCell(
-                          Text(data.volume),
+                          Text(formatInt(data.volume)),
                         ),
                         DataCell(
                           Text(data.dose),

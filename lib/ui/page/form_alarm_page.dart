@@ -12,22 +12,29 @@ class FormAlarmPage extends StatefulWidget {
 
 class _FormAlarmPageState extends State<FormAlarmPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController noRMIKController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController bedController = TextEditingController();
   TextEditingController infusController = TextEditingController();
   TextEditingController volumeController = TextEditingController();
+  TextEditingController totalVolumeController = TextEditingController();
   TextEditingController doseController = TextEditingController();
   TextEditingController releaseJamController = TextEditingController();
   TextEditingController releaseMenitController = TextEditingController();
 
+  List<History> history = [];
   @override
   void initState() {
+    totalVolumeController.text = "0";
     if (widget.data != null) {
+      noRMIKController.text = widget.data!.rmik;
       nameController.text = widget.data!.name;
       bedController.text = widget.data!.bed;
       infusController.text = widget.data!.infus;
-      volumeController.text = widget.data!.volume;
+      volumeController.text = widget.data!.volume.toString();
       doseController.text = widget.data!.dose;
+      history = widget.data!.history;
+      totalVolumeController.text = widget.data!.getTotalVolume().toString();
     }
 
     super.initState();
@@ -70,6 +77,16 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 Center(child: TimeInHourAndMinute()),
                 SizedBox(height: 20),
                 TextFormField(
+                  controller: noRMIKController,
+                  decoration: decorationForm.copyWith(labelText: 'No RMIK'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Tidak boleh kosong';
+                    }
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
                   controller: bedController,
                   decoration: decorationForm.copyWith(labelText: 'Kamar'),
                   validator: (value) {
@@ -100,14 +117,47 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                   },
                 ),
                 SizedBox(height: 10),
-                TextFormField(
-                  controller: volumeController,
-                  decoration: decorationForm.copyWith(labelText: 'Volume'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Tidak boleh kosong';
-                    }
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: volumeController,
+                        decoration:
+                            decorationForm.copyWith(labelText: 'Volume'),
+                        keyboardType: TextInputType.numberWithOptions(),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Tidak boleh kosong';
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                        controller: totalVolumeController,
+                        readOnly: true,
+                        onTap: () {
+                          if (history.isEmpty) {
+                            DialogUtils.instance.showInfo(context,
+                                title: 'Riwayat Pemasangan Infus',
+                                message: 'Belum ada riwayat pemasangan infus');
+                          } else {
+                            DialogUtils.instance.showHistoryVolume(
+                              context,
+                              history: history,
+                            );
+                          }
+                        },
+                        decoration: decorationForm.copyWith(
+                          labelText: 'Jumlah Volume',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 10),
                 TextFormField(
@@ -223,19 +273,32 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
               var _release = now.add(
                 Duration(minutes: releaseMinute),
               );
-              Provider.of<MonitoringProvider>(context, listen: false).save(
-                oldData: widget.data,
-                newData: AlarmInfo(
-                  name: nameController.text,
-                  bed: bedController.text,
-                  infus: infusController.text,
-                  volume: volumeController.text,
-                  dose: doseController.text,
-                  installed: now,
-                  release: _release,
-                  selisih: _release.difference(now),
-                ),
+              history.add(History(
+                rmik: noRMIKController.text,
+                name: nameController.text,
+                bed: bedController.text,
+                infus: infusController.text,
+                volume: int.parse(volumeController.text),
+                dose: doseController.text,
+                installed: now,
+                release: _release,
+              ));
+
+              AlarmInfo newData = AlarmInfo(
+                rmik: noRMIKController.text,
+                name: nameController.text,
+                bed: bedController.text,
+                infus: infusController.text,
+                volume: int.parse(volumeController.text),
+                history: history,
+                dose: doseController.text,
+                installed: now,
+                release: _release,
+                selisih: _release.difference(now),
               );
+
+              Provider.of<MonitoringProvider>(context, listen: false)
+                  .save(oldData: widget.data, newData: newData);
               Navigator.pop(context);
             }
           },

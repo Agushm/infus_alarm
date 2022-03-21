@@ -6,7 +6,7 @@ class Constants {
   static Color primary = const Color(0xFF000000);
   static Color red = const Color(0xFFFF0000);
   static Color blue = const Color(0xFF0176E8);
-  static Color grey = const Color(0xFFEBEBEB);
+  static Color grey = const Color(0xFFE4E9F2);
   static Color green = const Color(0xFF60C59F);
   static Color btnCopy = const Color(0xff508DCB);
   static Color gold = const Color(0xffFFD700);

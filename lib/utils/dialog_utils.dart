@@ -4,6 +4,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:infus_app/ui/widgets/widgets.dart';
 
+import '../core/models/models.dart';
+
 class DialogUtils {
   static DialogUtils instance = DialogUtils();
 
@@ -63,6 +65,18 @@ class DialogUtils {
                 },
               ),
             ],
+          );
+        });
+  }
+
+  void showHistoryVolume(BuildContext context, {List<History>? history}) {
+    showModal(
+        context: context,
+        configuration:
+            FadeScaleTransitionConfiguration(barrierDismissible: false),
+        builder: (context) {
+          return HistoryVolumeDialog(
+            history: history,
           );
         });
   }
