@@ -14,6 +14,7 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController noRMIKController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController bornDateController = TextEditingController();
   TextEditingController bedController = TextEditingController();
   TextEditingController infusController = TextEditingController();
   TextEditingController volumeController = TextEditingController();
@@ -23,20 +24,27 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
   TextEditingController releaseMenitController = TextEditingController();
 
   List<History> history = [];
+  DateTime selectedBornDate = DateTime.now();
   @override
   void initState() {
     totalVolumeController.text = "0";
     if (widget.data != null) {
       noRMIKController.text = widget.data!.rmik;
       nameController.text = widget.data!.name;
+
       bedController.text = widget.data!.bed;
       infusController.text = widget.data!.infus;
       volumeController.text = widget.data!.volume.toString();
       doseController.text = widget.data!.dose;
       history = widget.data!.history;
       totalVolumeController.text = widget.data!.getTotalVolume().toString();
+      selectedBornDate = widget.data!.born;
     }
-
+    bornDateController
+      ..text = DateFormat('dd MMMM yyyy', 'id_ID').format(selectedBornDate)
+      ..selection = TextSelection.fromPosition(TextPosition(
+          offset: bornDateController.text.length,
+          affinity: TextAffinity.upstream));
     super.initState();
   }
 
@@ -77,28 +85,33 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 Center(child: TimeInHourAndMinute()),
                 SizedBox(height: 20),
                 TextFormField(
-                  controller: noRMIKController,
-                  decoration: decorationForm.copyWith(labelText: 'No RMIK'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Tidak boleh kosong';
-                    }
-                  },
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: bedController,
-                  decoration: decorationForm.copyWith(labelText: 'Kamar'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Tidak boleh kosong';
-                    }
-                  },
-                ),
-                SizedBox(height: 10),
-                TextFormField(
                   controller: nameController,
                   decoration: decorationForm.copyWith(labelText: 'Nama Pasien'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Tidak boleh kosong';
+                    }
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  readOnly: true,
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  controller: bornDateController,
+                  decoration:
+                      decorationForm.copyWith(labelText: 'Tanggal Lahir'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Tidak boleh kosong';
+                    }
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: noRMIKController,
+                  decoration: decorationForm.copyWith(labelText: 'No RM'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Tidak boleh kosong';
@@ -276,6 +289,7 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
               history.add(History(
                 rmik: noRMIKController.text,
                 name: nameController.text,
+                born: selectedBornDate,
                 bed: bedController.text,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
@@ -287,6 +301,7 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
               AlarmInfo newData = AlarmInfo(
                 rmik: noRMIKController.text,
                 name: nameController.text,
+                born: selectedBornDate,
                 bed: bedController.text,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
@@ -310,5 +325,25 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
         ),
       ),
     );
+  }
+
+  _selectDate(BuildContext context) async {
+    DateTime? newSelectedDate = await showDatePicker(
+        context: context,
+        initialDate: selectedBornDate,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2150),
+        builder: (BuildContext context, Widget? child) {
+          return child!;
+        });
+
+    if (newSelectedDate != null) {
+      selectedBornDate = newSelectedDate;
+      bornDateController
+        ..text = DateFormat('dd MMMM yyyy', 'id_ID').format(selectedBornDate)
+        ..selection = TextSelection.fromPosition(TextPosition(
+            offset: bornDateController.text.length,
+            affinity: TextAffinity.upstream));
+    }
   }
 }

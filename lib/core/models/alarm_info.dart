@@ -6,6 +6,7 @@ class AlarmInfo {
   AlarmInfo({
     required this.rmik,
     required this.name,
+    required this.born,
     required this.bed,
     required this.infus,
     required this.volume,
@@ -17,6 +18,7 @@ class AlarmInfo {
   });
   late final String rmik;
   late final String name;
+  late final DateTime born;
   late final String bed;
   late final String infus;
   late final int volume;
@@ -29,7 +31,8 @@ class AlarmInfo {
   AlarmInfo.fromJson(Map<String, dynamic> json) {
     rmik = json['rmik'] ?? '';
     name = json['name'];
-    bed = json['bed'];
+    bed = json['bed'] ?? '';
+    born = DateTime.parse(json['born']);
     infus = json['infus'];
     volume = int.parse(json['volume'].toString());
     dose = json['dose'];
@@ -44,6 +47,7 @@ class AlarmInfo {
     final _data = <String, dynamic>{};
     _data['rmik'] = rmik;
     _data['name'] = name;
+    _data['born'] = born.toIso8601String();
     _data['bed'] = bed;
     _data['infus'] = infus;
     _data['volume'] = volume;
@@ -65,6 +69,7 @@ class AlarmInfo {
   static Map<String, dynamic> toMap(AlarmInfo e) => {
         'rmik': e.rmik,
         'bed': e.bed,
+        'born': e.born.toIso8601String(),
         'name': e.name,
         'infus': e.infus,
         'volume': e.volume,
@@ -88,6 +93,7 @@ class History {
   History({
     required this.rmik,
     required this.name,
+    required this.born,
     required this.bed,
     required this.infus,
     required this.volume,
@@ -97,6 +103,7 @@ class History {
   });
   late final String rmik;
   late final String name;
+  late final DateTime born;
   late final String bed;
   late final String infus;
   late final int volume;
@@ -107,7 +114,8 @@ class History {
   History.fromJson(Map<String, dynamic> json) {
     rmik = json['rmik'];
     name = json['name'];
-    bed = json['bed'];
+    born = DateTime.parse(json['born']);
+    bed = json['bed'] ?? '';
     infus = json['infus'];
     volume = json['volume'];
     dose = json['dose'];
@@ -119,6 +127,7 @@ class History {
     final _data = <String, dynamic>{};
     _data['rmik'] = rmik;
     _data['name'] = name;
+    _data['born'] = born.toIso8601String();
     _data['bed'] = bed;
     _data['infus'] = infus;
     _data['volume'] = volume;

@@ -2,8 +2,10 @@ import 'dart:isolate';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:infus_app/core/services/notification_services.dart';
 import 'package:infus_app/ui/constants/constants.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'core/providers/providers.dart';
@@ -46,6 +48,14 @@ class MyApp extends StatelessWidget {
         builder: (context, theme, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'SIMPECI (Aplikasi Monitoring Pemberian Carian Infus)',
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('id', 'ID'),
+          ],
           theme: themeData(context),
           darkTheme: darkThemeData(context),
           themeMode: theme.isLightTheme ? ThemeMode.light : ThemeMode.dark,

@@ -40,13 +40,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   DataColumn(
                     label: Center(
                       child: Text(
-                        "RMIK",
-                      ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Center(
-                      child: Text(
                         "Nama Pasien",
                       ),
                     ),
@@ -54,7 +47,14 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   DataColumn(
                     label: Center(
                       child: Text(
-                        "Kamar",
+                        "No RM",
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Center(
+                      child: Text(
+                        "Tanggal Lahir",
                       ),
                     ),
                   ),
@@ -122,13 +122,14 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           Text('${index + 1}'),
                         ),
                         DataCell(
-                          Text(data.rmik),
-                        ),
-                        DataCell(
                           Text(data.name),
                         ),
                         DataCell(
-                          Text(data.bed),
+                          Text(data.rmik),
+                        ),
+                        DataCell(
+                          Text(DateFormat('dd MMMM yyyy', 'id_ID')
+                              .format(data.born)),
                         ),
                         DataCell(
                           Text(data.infus),

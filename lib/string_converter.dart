@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 final formatDateWithTime = DateFormat('dd/MM/yyyy HH:mm');
 final formatDate = DateFormat('dd/MM/yyyy HH:mm');
+
 String tanggal(DateTime date) {
   return "${_day(date.weekday)}, ${date.day} ${_convertToLocalMonth(date.month, false)} ${date.year}";
 }
