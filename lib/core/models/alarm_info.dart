@@ -10,6 +10,8 @@ class AlarmInfo {
     required this.bed,
     required this.infus,
     required this.volume,
+    required this.ftt,
+    required this.tpm,
     required this.dose,
     required this.installed,
     required this.release,
@@ -22,6 +24,8 @@ class AlarmInfo {
   late final String bed;
   late final String infus;
   late final int volume;
+  late final int ftt;
+  late final int tpm;
   late final String dose;
   late final DateTime installed;
   late final DateTime release;
@@ -35,6 +39,8 @@ class AlarmInfo {
     born = DateTime.parse(json['born']);
     infus = json['infus'];
     volume = int.parse(json['volume'].toString());
+    ftt = int.parse(json['ftt'].toString());
+    tpm = int.parse(json['tpm'].toString());
     dose = json['dose'];
     installed = DateTime.parse(json['installed']);
     release = DateTime.parse(json['release']);
@@ -51,6 +57,8 @@ class AlarmInfo {
     _data['bed'] = bed;
     _data['infus'] = infus;
     _data['volume'] = volume;
+    _data['ftt'] = ftt;
+    _data['tpm'] = tpm;
     _data['dose'] = dose;
     _data['installed'] = installed.toIso8601String();
     _data['release'] = release.toIso8601String();
@@ -73,21 +81,14 @@ class AlarmInfo {
         'name': e.name,
         'infus': e.infus,
         'volume': e.volume,
+        'ftt': e.ftt,
+        'tpm': e.tpm,
         'dose': e.dose,
         'installed': e.installed.toIso8601String(),
         'release': e.release.toIso8601String(),
         'history': e.history.map((x) => x.toJson()).toList()
       };
 }
-
-var jsonAlarmInfo = {
-  "name": "Pasien 1",
-  "bed": "Mawar 1",
-  "infus": "Infus X",
-  "dose": "100mg",
-  "installed": DateTime.now(),
-  "release": DateTime.now()
-};
 
 class History {
   History({
@@ -97,6 +98,8 @@ class History {
     required this.bed,
     required this.infus,
     required this.volume,
+    required this.ftt,
+    required this.tpm,
     required this.dose,
     required this.installed,
     required this.release,
@@ -107,6 +110,8 @@ class History {
   late final String bed;
   late final String infus;
   late final int volume;
+  late final int ftt;
+  late final int tpm;
   late final String dose;
   late final DateTime installed;
   late final DateTime release;
@@ -118,6 +123,8 @@ class History {
     bed = json['bed'] ?? '';
     infus = json['infus'];
     volume = json['volume'];
+    ftt = json['ftt'];
+    tpm = json['tpm'];
     dose = json['dose'];
     installed = DateTime.parse(json['installed']);
     release = DateTime.parse(json['release']);
@@ -131,6 +138,8 @@ class History {
     _data['bed'] = bed;
     _data['infus'] = infus;
     _data['volume'] = volume;
+    _data['ftt'] = ftt;
+    _data['tpm'] = tpm;
     _data['dose'] = dose;
     _data['installed'] = installed.toIso8601String();
     _data['release'] = release.toIso8601String();

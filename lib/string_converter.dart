@@ -72,3 +72,15 @@ final formatter = NumberFormat("#,##0", "in_ID");
 String formatInt(int nominal) {
   return formatter.format(nominal);
 }
+
+String durationGetJam(int minutes) {
+  var d = Duration(minutes: minutes);
+  List<String> parts = d.toString().split(':');
+  return parts[0];
+}
+
+String durationGetMinutes(int minutes) {
+  var d = Duration(minutes: minutes);
+  List<String> parts = d.toString().split(':');
+  return parts[1];
+}

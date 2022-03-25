@@ -72,7 +72,9 @@ class HistoryVolumeDialog extends StatelessWidget {
                               Text(
                                 formatDateWithTime.format(d.installed),
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -87,7 +89,43 @@ class HistoryVolumeDialog extends StatelessWidget {
                               Text(
                                 formatDateWithTime.format(d.release),
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Jenis Infus',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 12),
+                              ),
+                              Text(
+                                '${d.infus}',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Dosis',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 12),
+                              ),
+                              Text(
+                                '${d.dose}',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -100,9 +138,11 @@ class HistoryVolumeDialog extends StatelessWidget {
                                     color: Colors.black54, fontSize: 12),
                               ),
                               Text(
-                                d.volume.toString(),
+                                '${d.volume} ml',
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),

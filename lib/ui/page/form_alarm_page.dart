@@ -19,6 +19,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
   TextEditingController infusController = TextEditingController();
   TextEditingController volumeController = TextEditingController();
   TextEditingController totalVolumeController = TextEditingController();
+  TextEditingController fttController = TextEditingController();
+  TextEditingController tpmController = TextEditingController();
   TextEditingController doseController = TextEditingController();
   TextEditingController releaseJamController = TextEditingController();
   TextEditingController releaseMenitController = TextEditingController();
@@ -59,6 +61,36 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
         ? "0"
         : releaseMenitController.text);
     releaseMinute = (jam + menit).toInt();
+    setState(() {});
+  }
+
+  double totalVolume = 0;
+  double totalKecepatan = 0;
+  double totalWaktu = 0;
+  double _totalMenit = 0;
+  void count() {
+    double volume = double.parse(
+        volumeController.text.isEmpty ? "0" : volumeController.text);
+
+    double jam = double.parse(releaseJamController.text.isEmpty
+            ? "0"
+            : releaseJamController.text) *
+        60;
+    double menit = double.parse(releaseMenitController.text.isEmpty
+        ? "0"
+        : releaseMenitController.text);
+    _totalMenit = jam + menit;
+    double ftt =
+        double.parse(fttController.text.isEmpty ? "0" : fttController.text);
+    double tpm =
+        double.parse(tpmController.text.isEmpty ? "0" : tpmController.text);
+
+    totalKecepatan = (ftt * volume) / _totalMenit;
+    totalWaktu = (volume * ftt) / tpm;
+    totalVolume = (_totalMenit * tpm) / ftt;
+    releaseMinute = totalWaktu.toInt();
+    releaseJamController.text = durationGetJam(releaseMinute);
+    releaseMenitController.text = durationGetMinutes(releaseMinute);
     setState(() {});
   }
 
@@ -130,14 +162,25 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                   },
                 ),
                 SizedBox(height: 10),
+                TextFormField(
+                  controller: doseController,
+                  decoration: decorationForm.copyWith(labelText: 'Dosis'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Tidak boleh kosong';
+                    }
+                  },
+                ),
+                SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
                         controller: volumeController,
-                        decoration:
-                            decorationForm.copyWith(labelText: 'Volume'),
-                        keyboardType: TextInputType.numberWithOptions(),
+                        decoration: decorationForm.copyWith(
+                          labelText: 'Volume',
+                          suffix: Text('ml'),
+                        ),
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -145,6 +188,10 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                           if (value!.isEmpty) {
                             return 'Tidak boleh kosong';
                           }
+                        },
+                        keyboardType: TextInputType.numberWithOptions(),
+                        onChanged: (value) {
+                          count();
                         },
                       ),
                     ),
@@ -167,6 +214,7 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                         },
                         decoration: decorationForm.copyWith(
                           labelText: 'Jumlah Volume',
+                          suffix: Text('ml'),
                         ),
                       ),
                     ),
@@ -174,12 +222,32 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 ),
                 SizedBox(height: 10),
                 TextFormField(
-                  controller: doseController,
-                  decoration: decorationForm.copyWith(labelText: 'Dosis'),
+                  controller: fttController,
+                  decoration: decorationForm.copyWith(
+                      labelText: 'Faktor Tetes', suffix: Text('gtt/ml')),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Tidak boleh kosong';
                     }
+                  },
+                  keyboardType: TextInputType.numberWithOptions(),
+                  onChanged: (value) {
+                    count();
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: tpmController,
+                  decoration: decorationForm.copyWith(
+                      labelText: 'Kecepatan', suffix: Text('tpm')),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Tidak boleh kosong';
+                    }
+                  },
+                  keyboardType: TextInputType.numberWithOptions(),
+                  onChanged: (value) {
+                    count();
                   },
                 ),
                 SizedBox(height: 10),
@@ -188,10 +256,6 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                     Expanded(
                       child: TextFormField(
                         controller: releaseJamController,
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          countMinute();
-                        },
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -201,16 +265,16 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                             return 'Tidak boleh kosong';
                           }
                         },
+                        keyboardType: TextInputType.numberWithOptions(),
+                        onChanged: (value) {
+                          count();
+                        },
                       ),
                     ),
                     SizedBox(width: 10),
                     Expanded(
                       child: TextFormField(
                         controller: releaseMenitController,
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          countMinute();
-                        },
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -219,6 +283,10 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                           if (value!.isEmpty) {
                             return 'Tidak boleh kosong';
                           }
+                        },
+                        keyboardType: TextInputType.numberWithOptions(),
+                        onChanged: (value) {
+                          count();
                         },
                       ),
                     ),
@@ -293,6 +361,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 bed: bedController.text,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
+                ftt: int.parse(fttController.text),
+                tpm: int.parse(tpmController.text),
                 dose: doseController.text,
                 installed: now,
                 release: _release,
@@ -305,6 +375,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 bed: bedController.text,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
+                ftt: int.parse(fttController.text),
+                tpm: int.parse(tpmController.text),
                 history: history,
                 dose: doseController.text,
                 installed: now,
