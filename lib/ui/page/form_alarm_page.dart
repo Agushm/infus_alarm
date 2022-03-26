@@ -33,7 +33,6 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
     if (widget.data != null) {
       noRMIKController.text = widget.data!.rmik;
       nameController.text = widget.data!.name;
-
       bedController.text = widget.data!.bed;
       infusController.text = widget.data!.infus;
       volumeController.text = widget.data!.volume.toString();
@@ -41,6 +40,9 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
       history = widget.data!.history;
       totalVolumeController.text = widget.data!.getTotalVolume().toString();
       selectedBornDate = widget.data!.born;
+      fttController.text = widget.data!.ftt.toString();
+      tpmController.text = widget.data!.tpm.toString();
+      count();
     }
     bornDateController
       ..text = DateFormat('dd MMMM yyyy', 'id_ID').format(selectedBornDate)
@@ -51,18 +53,6 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
   }
 
   int releaseMinute = 0;
-
-  void countMinute() {
-    double jam = double.parse(releaseJamController.text.isEmpty
-            ? "0"
-            : releaseJamController.text) *
-        60;
-    double menit = double.parse(releaseMenitController.text.isEmpty
-        ? "0"
-        : releaseMenitController.text);
-    releaseMinute = (jam + menit).toInt();
-    setState(() {});
-  }
 
   double totalVolume = 0;
   double totalKecepatan = 0;
@@ -403,8 +393,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
     DateTime? newSelectedDate = await showDatePicker(
         context: context,
         initialDate: selectedBornDate,
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2150),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
         builder: (BuildContext context, Widget? child) {
           return child!;
         });
