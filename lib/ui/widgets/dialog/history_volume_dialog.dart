@@ -99,29 +99,12 @@ class HistoryVolumeDialog extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Jenis Infus',
+                                'Jenis & Dosis Infus',
                                 style: TextStyle(
                                     color: Colors.black54, fontSize: 12),
                               ),
                               Text(
                                 '${d.infus}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Dosis',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 12),
-                              ),
-                              Text(
-                                '${d.dose}',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,

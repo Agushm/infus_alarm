@@ -15,13 +15,11 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
   TextEditingController noRMIKController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController bornDateController = TextEditingController();
-  TextEditingController bedController = TextEditingController();
   TextEditingController infusController = TextEditingController();
   TextEditingController volumeController = TextEditingController();
   TextEditingController totalVolumeController = TextEditingController();
   TextEditingController fttController = TextEditingController();
   TextEditingController tpmController = TextEditingController();
-  TextEditingController doseController = TextEditingController();
   TextEditingController releaseJamController = TextEditingController();
   TextEditingController releaseMenitController = TextEditingController();
 
@@ -33,10 +31,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
     if (widget.data != null) {
       noRMIKController.text = widget.data!.rmik;
       nameController.text = widget.data!.name;
-      bedController.text = widget.data!.bed;
       infusController.text = widget.data!.infus;
       volumeController.text = widget.data!.volume.toString();
-      doseController.text = widget.data!.dose;
       history = widget.data!.history;
       totalVolumeController.text = widget.data!.getTotalVolume().toString();
       selectedBornDate = widget.data!.born;
@@ -143,18 +139,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 SizedBox(height: 10),
                 TextFormField(
                   controller: infusController,
-                  decoration:
-                      decorationForm.copyWith(labelText: 'Jenis Cairan Infus'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Tidak boleh kosong';
-                    }
-                  },
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: doseController,
-                  decoration: decorationForm.copyWith(labelText: 'Dosis'),
+                  decoration: decorationForm.copyWith(
+                      labelText: 'Jenis dan Dosis Cairan Infus'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Tidak boleh kosong';
@@ -348,12 +334,10 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 rmik: noRMIKController.text,
                 name: nameController.text,
                 born: selectedBornDate,
-                bed: bedController.text,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
                 ftt: int.parse(fttController.text),
                 tpm: int.parse(tpmController.text),
-                dose: doseController.text,
                 installed: now,
                 release: _release,
               ));
@@ -362,13 +346,11 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 rmik: noRMIKController.text,
                 name: nameController.text,
                 born: selectedBornDate,
-                bed: bedController.text,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
                 ftt: int.parse(fttController.text),
                 tpm: int.parse(tpmController.text),
                 history: history,
-                dose: doseController.text,
                 installed: now,
                 release: _release,
                 selisih: _release.difference(now),

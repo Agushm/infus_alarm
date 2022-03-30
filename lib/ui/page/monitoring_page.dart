@@ -61,7 +61,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   DataColumn(
                     label: Center(
                       child: Text(
-                        "Jenis Cairan Infus",
+                        "Jenis dan Dosis Cairan Infus",
                       ),
                     ),
                   ),
@@ -69,13 +69,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                     label: Center(
                       child: Text(
                         "Volume",
-                      ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Center(
-                      child: Text(
-                        "Dosis",
                       ),
                     ),
                   ),
@@ -136,9 +129,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         ),
                         DataCell(
                           Text(formatInt(data.volume)),
-                        ),
-                        DataCell(
-                          Text(data.dose),
                         ),
                         DataCell(
                           Text(formatDate.format(data.installed)),
