@@ -201,11 +201,6 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                   controller: fttController,
                   decoration: decorationForm.copyWith(
                       labelText: 'Faktor Tetes', suffix: Text('gtt/ml')),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Tidak boleh kosong';
-                    }
-                  },
                   keyboardType: TextInputType.numberWithOptions(),
                   onChanged: (value) {
                     count();
@@ -216,11 +211,6 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                   controller: tpmController,
                   decoration: decorationForm.copyWith(
                       labelText: 'Kecepatan', suffix: Text('tpm')),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Tidak boleh kosong';
-                    }
-                  },
                   keyboardType: TextInputType.numberWithOptions(),
                   onChanged: (value) {
                     count();
@@ -330,14 +320,19 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
               var _release = now.add(
                 Duration(minutes: releaseMinute),
               );
+              int ftt = int.parse(
+                  fttController.text.isEmpty ? '0' : fttController.text);
+
+              int tpm = int.parse(
+                  tpmController.text.isEmpty ? '0' : tpmController.text);
               history.add(History(
                 rmik: noRMIKController.text,
                 name: nameController.text,
                 born: selectedBornDate,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
-                ftt: int.parse(fttController.text),
-                tpm: int.parse(tpmController.text),
+                ftt: ftt,
+                tpm: tpm,
                 installed: now,
                 release: _release,
               ));
@@ -348,8 +343,8 @@ class _FormAlarmPageState extends State<FormAlarmPage> {
                 born: selectedBornDate,
                 infus: infusController.text,
                 volume: int.parse(volumeController.text),
-                ftt: int.parse(fttController.text),
-                tpm: int.parse(tpmController.text),
+                ftt: ftt,
+                tpm: tpm,
                 history: history,
                 installed: now,
                 release: _release,
