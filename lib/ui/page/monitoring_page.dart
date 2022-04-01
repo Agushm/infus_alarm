@@ -101,7 +101,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   return DataRow(
                       color: lastPasien == data
                           ? MaterialStateColor.resolveWith(
-                              (states) => Colors.red[200]!)
+                              (states) => Color(0xffC70039))
                           : MaterialStateColor.resolveWith(
                               (states) => Colors.transparent),
                       onLongPress: () {
@@ -112,31 +112,64 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       },
                       cells: [
                         DataCell(
-                          Text('${index + 1}'),
+                          Text(
+                            '${index + 1}',
+                            style: TextStyle(
+                                color: lastPasien == data
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                         DataCell(
-                          Text(data.name),
+                          Text(data.name,
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
                         ),
                         DataCell(
-                          Text(data.rmik),
-                        ),
-                        DataCell(
-                          Text(DateFormat('dd MMMM yyyy', 'id_ID')
-                              .format(data.born)),
-                        ),
-                        DataCell(
-                          Text(data.infus),
-                        ),
-                        DataCell(
-                          Text(formatInt(data.volume)),
-                        ),
-                        DataCell(
-                          Text(formatDate.format(data.installed)),
+                          Text(data.rmik,
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
                         ),
                         DataCell(
                           Text(
-                            formatDate.format(data.release),
-                          ),
+                              DateFormat('dd MMMM yyyy', 'id_ID')
+                                  .format(data.born),
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
+                        ),
+                        DataCell(
+                          Text(data.infus,
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
+                        ),
+                        DataCell(
+                          Text(formatInt(data.volume),
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
+                        ),
+                        DataCell(
+                          Text(formatDate.format(data.installed),
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
+                        ),
+                        DataCell(
+                          Text(formatDate.format(data.release),
+                              style: TextStyle(
+                                  color: lastPasien == data
+                                      ? Colors.white
+                                      : Colors.black)),
                         ),
                         DataCell(
                           Row(

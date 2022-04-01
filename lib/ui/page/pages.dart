@@ -21,3 +21,4 @@ part 'main_page.dart';
 part 'monitoring_page.dart';
 part 'calculator_page.dart';
 part 'form_alarm_page.dart';
+part 'splash_page.dart';
